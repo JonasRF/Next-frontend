@@ -1,5 +1,7 @@
 import type { Config } from "tailwindcss";
-
+import  flowbite  from "flowbite-react/tailwind";
+//@ts-expect-error - flowbite-typography is not typed
+import flowbiteTypography from "flowbite-typography";
 export default {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -14,5 +16,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [flowbite.plugin(), flowbiteTypography],
 } satisfies Config;
