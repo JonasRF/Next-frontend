@@ -20,6 +20,7 @@ export default async function AssetsListPage({
 }: {
   searchParams: Promise<{ wallet_id: string }>;
 }) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { wallet_id } = await searchParams;
   const assets = await getAssets();
 
@@ -42,8 +43,10 @@ export default async function AssetsListPage({
                 <TableCell>
                   <AssetShow asset={asset} />
                 </TableCell>             
-                <TableCell>{asset.price}</TableCell>               
-                <Button color="light">Comprar/Vender</Button>
+                <TableCell>{asset.price}</TableCell>     
+                <TableCell>
+                  <Button color="light">Comprar/Vender</Button> 
+                </TableCell>         
               </TableRow>
             ))}
           </TableBody>

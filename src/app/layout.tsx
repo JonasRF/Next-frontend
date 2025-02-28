@@ -13,7 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`h-screen flex flex-col`}>
+      <body className={`h-screen flex flex-col`} suppressHydrationWarning>
        <div className="container mx-auto px-4 flex flex-grow">{children}</div> 
       </body>
     </html>

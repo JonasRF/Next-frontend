@@ -1,5 +1,7 @@
 import { AssetShow } from "@/app/components/AssetShow";
+import { OrderForm } from "@/app/components/OrderForm";
 import { TabsItem } from "@/app/components/Tabs";
+import { OrderType } from "@/app/models";
 import { Card, Tabs } from "flowbite-react";
 
 export async function getAsset(symbol: string) {
@@ -9,10 +11,14 @@ export async function getAsset(symbol: string) {
 
 export default async function AssetDashboard({
   params,
+  searchParams,
 }: {
   params: Promise<{ assetSymbol: string }>;
+  searchParams: Promise<{ wallet_id: string }>;
 }) {
   const { assetSymbol } = await params;
+  const { wallet_id: walletId } = await searchParams;
+
   const asset = await getAsset(assetSymbol);
 
   return (
@@ -27,11 +33,21 @@ export default async function AssetDashboard({
             <Tabs>
               <TabsItem
                 active
-                title={<div className="text-blue-700">Comprar</div>}
-              ></TabsItem>
-              <TabsItem
-                title={<div className="text-red-700">Venda</div>}
-              ></TabsItem>
+                title={<div className="text-blue-700">Compra</div>}
+              >
+                <OrderForm
+                  asset={asset}
+                  wallet_id={walletId}
+                  type={OrderType.BUY}
+                />
+              </TabsItem>
+              <TabsItem title={<div className="text-red-700">Venda</div>}>
+                <OrderForm
+                  asset={asset}
+                  wallet_id={walletId}
+                  type={OrderType.SELL}
+                />
+              </TabsItem>
             </Tabs>
           </Card>
         </div>
