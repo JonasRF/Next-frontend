@@ -7,13 +7,9 @@ import {
   TableHeadCell,
   TableRow,
 } from "flowbite-react";
-import { Asset} from "../models";
 import { AssetShow } from "../components/AssetShow";
-
-export async function getAssets(): Promise<Asset[]> {
-  const response = await fetch(`http://localhost:3000/assets/`);
-  return response.json();
-}
+import { getAssets, getMyWallet } from "../queries/queries";
+import { WalletList } from "../components/WalletList";
 
 export default async function AssetsListPage({
   searchParams,
@@ -22,6 +18,17 @@ export default async function AssetsListPage({
 }) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { wallet_id } = await searchParams;
+
+  if(!wallet_id) {
+    return <WalletList />;
+  }
+
+  const wallet = await getMyWallet(wallet_id);
+
+  if (!wallet) {
+    return <WalletList />;
+  }
+
   const assets = await getAssets();
 
   return (

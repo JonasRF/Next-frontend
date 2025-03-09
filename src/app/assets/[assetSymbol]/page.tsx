@@ -3,6 +3,9 @@ import { OrderForm } from "@/app/components/OrderForm";
 import { TabsItem } from "@/app/components/Tabs";
 import { OrderType } from "@/app/models";
 import { Card, Tabs } from "flowbite-react";
+import { AssetChartComponent } from "./AssetChartComponent";
+import { WalletList } from "@/app/components/WalletList";
+import { getMyWallet } from "@/app/queries/queries";
 
 export async function getAsset(symbol: string) {
   const response = await fetch(`http://localhost:3000/assets/${symbol}`);
@@ -18,6 +21,16 @@ export default async function AssetDashboard({
 }) {
   const { assetSymbol } = await params;
   const { wallet_id: walletId } = await searchParams;
+
+  if (!walletId) {
+    return <WalletList />;
+  }
+
+  const wallet = await getMyWallet(walletId);
+
+  if (!wallet) {
+    return <WalletList />;
+  }
 
   const asset = await getAsset(assetSymbol);
 
@@ -51,7 +64,9 @@ export default async function AssetDashboard({
             </Tabs>
           </Card>
         </div>
-        <div className="col-span-3 flex flex-grow"></div>
+        <div className="col-span-3 flex flex-grow">
+          <AssetChartComponent asset={asset} />
+        </div>
       </div>
     </div>
   );

@@ -6,17 +6,11 @@ import {
   TableHeadCell,
   TableRow,
 } from "flowbite-react";
-import { Order } from "../models";
 import { AssetShow } from "../components/AssetShow";
 import { OrderTypeBadge } from "../components/OrderTypeBadge";
 import { OrderStatusBadge } from "../components/OrderStatusBadge";
-
-export async function getOrders(walletId: string): Promise<Order[]> {
-  const response = await fetch(
-    `http://localhost:3000/orders?walletId=${walletId}`
-  );
-  return response.json();
-}
+import { getMyWallet, getOrders } from "../queries/queries";
+import { WalletList } from "../components/WalletList";
 
 export default async function OrderListPage({
   searchParams,
@@ -24,6 +18,18 @@ export default async function OrderListPage({
   searchParams: Promise<{ wallet_id: string }>;
 }) {
   const { wallet_id } = await searchParams;
+
+  
+  if (!wallet_id) {
+    return <WalletList />;
+  }
+
+  const wallet = await getMyWallet(wallet_id);
+
+  if (!wallet) {
+    return <WalletList />;
+  }
+  
   const orders = await getOrders(wallet_id);
     console.log(orders);
   return (
