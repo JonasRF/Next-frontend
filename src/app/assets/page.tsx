@@ -10,6 +10,7 @@ import {
 import { AssetShow } from "../components/AssetShow";
 import { getAssets, getMyWallet } from "../queries/queries";
 import { WalletList } from "../components/WalletList";
+import Link from "next/link";
 
 export default async function AssetsListPage({
   searchParams,
@@ -52,7 +53,14 @@ export default async function AssetsListPage({
                 </TableCell>             
                 <TableCell>{asset.price}</TableCell>     
                 <TableCell>
-                  <Button color="light">Comprar/Vender</Button> 
+                <Button
+                className="w-fit"
+                  color="light"
+                  as={Link}
+                  href={`/assets/${asset.symbol}?wallet_id=${wallet_id}`}
+                >
+                  Comprar/Vender
+                </Button>
                 </TableCell>         
               </TableRow>
             ))}

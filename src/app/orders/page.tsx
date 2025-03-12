@@ -18,7 +18,6 @@ export default async function OrderListPage({
   searchParams: Promise<{ wallet_id: string }>;
 }) {
   const { wallet_id } = await searchParams;
-
   
   if (!wallet_id) {
     return <WalletList />;
